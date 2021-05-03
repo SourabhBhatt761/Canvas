@@ -17,7 +17,7 @@
         app:showAsAction="always">
 
         <menu>
-            <item
+        <!--    <item
                 android:id="@+id/option_tell_friends"
                 android:icon="@drawable/ic_share_ol"
                 android:title="@string/option_tell_friends"
@@ -31,11 +31,16 @@
                 android:id="@+id/option_about"
                 android:icon="@drawable/ic_about"
                 android:title="@string/option_about"
-                app:showAsAction="never" />
+                app:showAsAction="never" />-->
             <item
                 android:id="@+id/option_settings"
                 android:icon="@drawable/ic_settings"
                 android:title="@string/option_settings"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/log_Out"
+                android:icon="@drawable/baseline_logout_black_24dp"
+                android:title="@string/log_out"
                 app:showAsAction="never" />
         </menu>
 

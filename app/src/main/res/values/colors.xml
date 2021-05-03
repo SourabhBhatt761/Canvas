@@ -25,5 +25,7 @@
     <color name="greenLight">#009688</color>
     <color name="purpleBlue">#3F51B5</color>
 
+    <color name="textViewBorder">#ECEDEE</color>
+
 
 </resources>

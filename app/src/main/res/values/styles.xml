@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="EditText.Normal" parent="Widget.AppCompat.EditText" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/text_view_perfect_corners</item>
+    </style>
+
+    <style name="EditText.Large" parent="Widget.AppCompat.EditText" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:lines">5</item>
+        <item name="android:gravity">top</item>
+        <item name="android:background">@drawable/text_view_perfect_corners</item>
+    </style>
+</resources>

@@ -23,8 +23,11 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.bottomsheets.gridItems
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.list.listItems
+import com.google.firebase.auth.FirebaseAuth
 import com.srb.canvas.R
 import com.srb.canvas.databinding.FragmentCanvasBinding
+import com.srb.canvas.ui.LoginActivity
+import com.srb.canvas.ui.MainActivity
 import com.srb.canvas.utils.Constants.GALLERY
 import com.srb.canvas.utils.Constants.STORAGE_PERMISSION_CODE
 import com.srb.canvas.utils.shareText
@@ -136,6 +139,7 @@ class CanvasFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.option_save_drawing -> saveDrawing()
+            R.id.log_Out -> logOut()
 //            R.id.option_tell_friends -> shareText(
 //                requireContext(), getString(R.string.option_tell_friends_msg)
 //            )
@@ -149,6 +153,16 @@ class CanvasFragment : Fragment() {
 //        ) || super.onOptionsItemSelected(item)
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun logOut(): Boolean {
+       FirebaseAuth.getInstance().signOut()
+        val intent = Intent(requireContext(),LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+
+        requireActivity().finish()
+        return true
     }
 
     private fun saveDrawing() {
