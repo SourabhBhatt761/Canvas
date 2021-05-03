@@ -32,19 +32,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-
-    override fun onStart() {
-        super.onStart()
-
-        if (FirebaseAuth.getInstance().currentUser != null)
-        {
-            val intent = Intent(this,MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            finish()
-        }
-    }
-
     private fun logInUser() {
         val email = binding.logInEmail.text.toString()
         val password = binding.logInPwdEt.text.toString()
