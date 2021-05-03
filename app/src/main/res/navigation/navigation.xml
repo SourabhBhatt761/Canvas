@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/canvasFragment"
         android:name="com.srb.canvas.ui.canvas.CanvasFragment"
-        android:label="CanvasFragment"
+        android:label="Canvas"
         tools:layout="@layout/fragment_canvas"/>
 </navigation>

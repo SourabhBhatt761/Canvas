@@ -55,11 +55,44 @@ class CanvasFragment : Fragment() {
         eraser()
         brush()
 
-        setHasOptionsMenu(true)
-        onBackPressed()
 
-        return binding.root
+
+            setHasOptionsMenu(true)
+            onBackPressed()
+
+
+
+            return binding.root
+
     }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        binding.hsvRight.setOnDragListener(View.OnDragListener { v, event ->
+//            when (event.action) {
+//                DragEvent.ACTION_DRAG_STARTED -> {
+//                    checkScroll()
+//                }
+//
+//                else -> checkScroll()
+//            }
+//
+//        })
+//
+//
+//    }
+//
+//    private fun checkScroll() : Boolean{
+//        return if(binding.hsvRight.fullScroll(HorizontalScrollView.FOCUS_RIGHT)){
+//            binding.ibMoveRight.visibility = View.INVISIBLE
+//            binding.ibMoveLeft.visibility = View.VISIBLE
+//            true
+//        }else{
+//            binding.ibMoveRight.visibility = View.VISIBLE
+//            binding.ibMoveLeft.visibility = View.INVISIBLE
+//            true
+//        }
+//    }
 
     /* ===================================== Permissions ===================================== */
 
@@ -103,10 +136,10 @@ class CanvasFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.option_save_drawing -> saveDrawing()
-            R.id.option_tell_friends -> shareText(
-                requireContext(), getString(R.string.option_tell_friends_msg)
-            )
-            R.id.option_rate_app -> rateApp()
+//            R.id.option_tell_friends -> shareText(
+//                requireContext(), getString(R.string.option_tell_friends_msg)
+//            )
+//            R.id.option_rate_app -> rateApp()
 //            R.id.option_about -> findNavController().navigate(R.id.action_canvasFragment_to_aboutFragment)
 //            R.id.option_settings -> findNavController().navigate(R.id.settingsActivity)
         }
@@ -151,7 +184,6 @@ class CanvasFragment : Fragment() {
         binding.ibEraseDraw.setOnLongClickListener {
             showBrushSizeDialog(true)
             binding.drawingView.setBrushColor(Color.WHITE)
-            binding.drawingView.background
             return@setOnLongClickListener true
         }
     }
@@ -168,7 +200,7 @@ class CanvasFragment : Fragment() {
 
         MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
             title(R.string.dialog_choose_color)
-            colorChooser(colors, allowCustomArgb = true, showAlphaSelector = true) { _, color ->
+            colorChooser(colors, allowCustomArgb = true, showAlphaSelector = true ,initialSelection = brushColor) { _, color ->
                 brushColor = color
                 binding.drawingView.setBrushColor(brushColor)
             }
@@ -295,6 +327,8 @@ class CanvasFragment : Fragment() {
                                 requireActivity().onBackPressed()
                             }
                         }
+
+
                     }
                 }
             }

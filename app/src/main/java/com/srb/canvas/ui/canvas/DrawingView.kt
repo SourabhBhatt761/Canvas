@@ -134,7 +134,8 @@ class DrawingView (context: Context, attrs: AttributeSet) : View(context, attrs)
     fun setBrushSize(size: Float): Float {
         // Set size based on screen dimension.
         brushSize = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, size,
+            TypedValue.COMPLEX_UNIT_DIP,
+            size,
             resources.displayMetrics
         )
         drawPaint!!.strokeWidth = brushSize
@@ -167,13 +168,14 @@ class DrawingView (context: Context, attrs: AttributeSet) : View(context, attrs)
 
     fun clearDrawing() {
         drawPath?.reset() // Avoiding saving redo from Path().
+        undonePaths.addAll(paths)
         paths.clear()
         invalidate()
     }
 
     fun saveBitmap(bitmap: Bitmap): String {
         val resolver = context.contentResolver
-        val fileName = "LikePaint_${System.currentTimeMillis() / 1000}.png"
+        val fileName = "Canvas_${System.currentTimeMillis() / 1000}.png"
 
         val values = ContentValues()
         values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName)

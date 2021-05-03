@@ -70,6 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:scrollbarSize="0dp"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ibMoveRight"
                 app:layout_constraintStart_toStartOf="parent"
