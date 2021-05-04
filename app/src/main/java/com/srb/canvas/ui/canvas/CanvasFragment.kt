@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -167,7 +168,7 @@ class CanvasFragment : Fragment() {
 //            )
 //            R.id.option_rate_app -> rateApp()
 //            R.id.option_about -> findNavController().navigate(R.id.action_canvasFragment_to_aboutFragment)
-//            R.id.option_settings -> findNavController().navigate(R.id.settingsActivity)
+
         }
 
 //        return NavigationUI.onNavDestinationSelected(
@@ -189,7 +190,10 @@ class CanvasFragment : Fragment() {
 
     private fun saveDrawing() {
         when {
-            isReadStorageAllowed() -> saveBitmap()
+            isReadStorageAllowed() -> {
+                saveBitmap()
+                showConfirmationDialog()
+            }
             else -> requestStoragePermission()
         }
     }
@@ -207,7 +211,7 @@ class CanvasFragment : Fragment() {
     fun brush() {
         binding.drawingView.setBrushColor(brushColor)
 
-        binding.ibEraseDraw.setColorFilter(ContextCompat.getColor(requireContext(),R.color.black))
+        binding.ibEraseDraw.setColorFilter(ContextCompat.getColor(requireContext(),R.color.iconColor))
         binding.ibBrushSize.apply {
             setOnLongClickListener {
             showBrushSizeDialog(false)
@@ -216,21 +220,21 @@ class CanvasFragment : Fragment() {
         }
            // setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.white))
 
-           setColorFilter(ContextCompat.getColor(requireContext(),R.color.purple_700))
+           setColorFilter(ContextCompat.getColor(requireContext(),R.color.selectedIconColor))
         }
     }
 
     fun eraser() {
         binding.drawingView.setBrushColor(Color.WHITE)
 
-        binding.ibBrushSize.setColorFilter(ContextCompat.getColor(requireContext(),R.color.black))
+        binding.ibBrushSize.setColorFilter(ContextCompat.getColor(requireContext(),R.color.iconColor))
         binding.ibEraseDraw.apply {
             setOnLongClickListener {
                 showBrushSizeDialog(true)
                 binding.drawingView.setBrushColor(Color.WHITE)
                 return@setOnLongClickListener true
             }
-            setColorFilter(ContextCompat.getColor(requireContext(),R.color.purple_700))
+            setColorFilter(ContextCompat.getColor(requireContext(),R.color.selectedIconColor))
         }
     }
 
@@ -264,6 +268,7 @@ class CanvasFragment : Fragment() {
                 ) { _, color ->
                     brushColor = color
                     binding.drawingView.setBrushColor(brushColor)
+                    binding.ibBrushColor.setColorFilter(color)
                 }
                 positiveButton(R.string.dialog_select)
                 negativeButton(R.string.dialog_negative)
@@ -350,7 +355,8 @@ class CanvasFragment : Fragment() {
     private fun saveBitmap() {
         viewLifecycleOwner.lifecycleScope.launch {
             binding.drawingView.saveBitmap(binding.drawingView.getBitmap(binding.flDrawingViewContainer))
-            snackBarMsg(requireView(), getString(R.string.drawing_saved))
+//            snackBarMsg(requireView(), getString(R.string.drawing_saved))
+            Toast.makeText(requireContext(),"Saved to Pictures",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -424,6 +430,22 @@ class CanvasFragment : Fragment() {
                 }
             }
         )
+    }
+
+    private fun showConfirmationDialog(){
+        MaterialDialog(requireContext()).show{
+            title(text = "Upload to Firebase as well?")
+            message(text = "With the help of 'okay' image will be uploaded to firebase as well as local storage and cancel will store only in pictures")
+            positiveButton(text = "Okay"){
+
+                val uri = binding.drawingView.imageUri
+                binding.drawingView.uploadToFireStore(uri)
+                hide()
+            }
+            negativeButton(text = "Cancel"){
+                hide()
+            }
+        }
     }
 
 

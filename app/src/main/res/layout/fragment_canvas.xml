@@ -56,8 +56,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="32dp"
-            app:backgroundTint="@color/purple_200"
-            app:tint = "@color/white"
+            app:backgroundTint="#9ddfd3"
+            app:tint = "@color/black"
             android:layout_marginEnd="5dp"
             android:onClick="@{() -> canvas.fab()}"
             app:srcCompat="@drawable/ic_arrow_left"
@@ -104,6 +104,7 @@
                             android:contentDescription="@string/brush_button"
                             android:longClickable="true"
                             android:onClick="@{() -> canvas.brush()}"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_brush" />
 
                         <ImageButton
@@ -113,6 +114,7 @@
                             android:contentDescription="@string/erase_draw_button"
                             android:longClickable="true"
                             android:onClick="@{() -> canvas.eraser()}"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_eraser" />
 
                         <ImageButton
@@ -121,6 +123,7 @@
                             android:layout_marginEnd="4dp"
                             android:contentDescription="@string/undo_draw_button"
                             android:onClick="@{() -> drawing.undoPath()}"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_undo" />
 
                         <ImageButton
@@ -129,6 +132,7 @@
                             android:layout_marginEnd="4dp"
                             android:contentDescription="@string/redo_draw_button"
                             android:onClick="@{() -> drawing.redoPath()}"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_redo" />
 
                         <ImageButton
@@ -137,6 +141,7 @@
                             android:layout_marginEnd="4dp"
                             android:contentDescription="@string/brush_color_button"
                             android:onClick="@{() -> canvas.brushColor()}"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_palette" />
 
                         <ImageButton
@@ -145,6 +150,7 @@
                             android:layout_marginEnd="4dp"
                             android:contentDescription="@string/background_image_button"
                             android:onClick="@{() -> canvas.imageBackground()}"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_image" />
 
                         <ImageButton
@@ -153,6 +159,7 @@
                             android:layout_marginEnd="4dp"
                             android:contentDescription="@string/brush_color_button"
                             android:onClick="@{() -> drawing.clearDrawing()}"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_clear" />
 
                         <ImageButton
@@ -161,6 +168,7 @@
                             android:layout_marginEnd="4dp"
                             android:contentDescription="@string/share_drawing_button"
                             android:onClick="@{() -> canvas.shareDrawing()}"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_share" />
 
                     </LinearLayout>

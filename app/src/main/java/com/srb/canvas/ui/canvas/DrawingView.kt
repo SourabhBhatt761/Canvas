@@ -36,6 +36,7 @@ class DrawingView (context: Context, attrs: AttributeSet) : View(context, attrs)
     private var brushColor: Int = Color.BLACK
 
     lateinit var result: String
+    lateinit var imageUri : Uri
 
     init {
         setUpDrawing()
@@ -194,21 +195,22 @@ class DrawingView (context: Context, attrs: AttributeSet) : View(context, attrs)
             Timber.i(uri.toString())
             saveDrawingToStream(bitmap, resolver.openOutputStream(uri))
             context.contentResolver.update(uri, values, null, null)
-            uploadToFireStore(uri)
+            imageUri = uri
             result = uri.toString()
         }
 
         return result
     }
 
-    private fun uploadToFireStore(uri: Uri) {
+     fun uploadToFireStore(uri: Uri) {
 
         Timber.i(uri.toString())
         val fireRef = FirebaseStorage.getInstance().reference.child("uploads").child("Canvas_${System.currentTimeMillis() / 1000}.png")
 
         fireRef.putFile(uri).addOnCompleteListener {
             if (it.isSuccessful) {
-                Toast.makeText(context,"done",Toast.LENGTH_SHORT).show()
+                snackBarMsg(this,"done")
+//                Toast.makeText(context,"done",Toast.LENGTH_SHORT).show()
                 fireRef.downloadUrl.addOnSuccessListener { url ->
                     Timber.i(url.toString())
                 }
