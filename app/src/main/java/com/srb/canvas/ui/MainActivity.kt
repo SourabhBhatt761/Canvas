@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.firebase.database.FirebaseDatabase
 import com.srb.canvas.BuildConfig
 import com.srb.canvas.R
 import com.srb.canvas.databinding.ActivityMainBinding
@@ -32,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         // Use DataBinding to set the activity view.
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
+
+        
 
         setupNavigation()
         setupTheme(this)

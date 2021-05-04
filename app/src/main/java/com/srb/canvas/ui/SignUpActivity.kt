@@ -7,6 +7,7 @@ import android.text.TextUtils
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.srb.canvas.R
 import com.srb.canvas.databinding.ActivitySignUpBinding
 
@@ -41,7 +42,7 @@ class SignUpActivity : AppCompatActivity() {
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-//                            saveUserInfo(email)
+                            saveUserInfo(email)
 //
                             val intent = Intent(this,MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -59,6 +60,11 @@ class SignUpActivity : AppCompatActivity() {
                     }
             }
         }
+    }
+
+    private fun saveUserInfo(email: String) {
+
+        FirebaseDatabase.getInstance().reference.child("name").setValue(email)
     }
 
 }
