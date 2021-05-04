@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import com.google.firebase.auth.FirebaseAuth
 import com.srb.canvas.R
 
@@ -14,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
 
             if (FirebaseAuth.getInstance().currentUser != null) {
                 val intent = Intent(this, MainActivity::class.java)

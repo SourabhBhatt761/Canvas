@@ -1,21 +1,25 @@
 package com.srb.canvas.ui.canvas
 
 import android.Manifest
+import android.R.color
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.view.*
-import android.widget.HorizontalScrollView
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BasicGridItem
@@ -27,15 +31,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.srb.canvas.R
 import com.srb.canvas.databinding.FragmentCanvasBinding
 import com.srb.canvas.ui.LoginActivity
-import com.srb.canvas.ui.MainActivity
 import com.srb.canvas.utils.Constants.GALLERY
 import com.srb.canvas.utils.Constants.STORAGE_PERMISSION_CODE
-import com.srb.canvas.utils.shareText
 import com.srb.canvas.utils.snackBarMsg
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 
 class CanvasFragment : Fragment() {
 
@@ -43,6 +46,25 @@ class CanvasFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var brushColor: Int = Color.BLACK
+    private var fabClicked = false
+
+    //animations
+    private val fromLeft : Animation by lazy{ AnimationUtils.loadAnimation(
+        requireContext(),
+        R.anim.animation_from_left
+    )}
+    private val fromRight : Animation by lazy{ AnimationUtils.loadAnimation(
+        requireContext(),
+        R.anim.animation_from_right
+    )}
+    private val toLeft : Animation by lazy{ AnimationUtils.loadAnimation(
+        requireContext(),
+        R.anim.animation_to_left
+    )}
+    private val toRight : Animation by lazy{ AnimationUtils.loadAnimation(
+        requireContext(),
+        R.anim.animation_to_right
+    )}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -55,17 +77,17 @@ class CanvasFragment : Fragment() {
         binding.drawing = binding.drawingView
 
         // Initiate for long click.
-        eraser()
-        brush()
+//        eraser()
+//        brush()
 
 
 
-            setHasOptionsMenu(true)
-            onBackPressed()
+        setHasOptionsMenu(true)
+        onBackPressed()
 
 
 
-            return binding.root
+        return binding.root
 
     }
 
@@ -156,8 +178,8 @@ class CanvasFragment : Fragment() {
     }
 
     private fun logOut(): Boolean {
-       FirebaseAuth.getInstance().signOut()
-        val intent = Intent(requireContext(),LoginActivity::class.java)
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(requireContext(), LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
 
@@ -185,42 +207,75 @@ class CanvasFragment : Fragment() {
     fun brush() {
         binding.drawingView.setBrushColor(brushColor)
 
-        binding.ibBrushSize.setOnLongClickListener {
+        binding.ibEraseDraw.setColorFilter(ContextCompat.getColor(requireContext(),R.color.black))
+        binding.ibBrushSize.apply {
+            setOnLongClickListener {
             showBrushSizeDialog(false)
             binding.drawingView.setBrushColor(brushColor)
             return@setOnLongClickListener true
+        }
+           // setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.white))
+
+           setColorFilter(ContextCompat.getColor(requireContext(),R.color.purple_700))
         }
     }
 
     fun eraser() {
         binding.drawingView.setBrushColor(Color.WHITE)
 
-        binding.ibEraseDraw.setOnLongClickListener {
-            showBrushSizeDialog(true)
-            binding.drawingView.setBrushColor(Color.WHITE)
-            return@setOnLongClickListener true
+        binding.ibBrushSize.setColorFilter(ContextCompat.getColor(requireContext(),R.color.black))
+        binding.ibEraseDraw.apply {
+            setOnLongClickListener {
+                showBrushSizeDialog(true)
+                binding.drawingView.setBrushColor(Color.WHITE)
+                return@setOnLongClickListener true
+            }
+            setColorFilter(ContextCompat.getColor(requireContext(),R.color.purple_700))
         }
     }
 
     fun brushColor() {
 
         val colors = intArrayOf(
-            Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,
-            Color.YELLOW, Color.MAGENTA, Color.GRAY, Color.CYAN,
-            ContextCompat.getColor(requireContext(),R.color.beige),
-            ContextCompat.getColor(requireContext(),R.color.orange),
-            ContextCompat.getColor(requireContext(),R.color.greenLight), ContextCompat.getColor(requireContext(),R.color.purpleBlue)
+            Color.BLACK,
+            Color.RED,
+            Color.BLUE,
+            Color.GREEN,
+            Color.YELLOW,
+            Color.MAGENTA,
+            Color.GRAY,
+            Color.CYAN,
+            ContextCompat.getColor(requireContext(), R.color.beige),
+            ContextCompat.getColor(requireContext(), R.color.orange),
+            ContextCompat.getColor(requireContext(), R.color.greenLight),
+            ContextCompat.getColor(requireContext(), R.color.purpleBlue)
         )
 
-        MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
-            title(R.string.dialog_choose_color)
-            colorChooser(colors, allowCustomArgb = true, showAlphaSelector = true ,initialSelection = brushColor) { _, color ->
-                brushColor = color
-                binding.drawingView.setBrushColor(brushColor)
-            }
-            positiveButton(R.string.dialog_select)
-            negativeButton(R.string.dialog_negative)
+        binding.ibBrushColor.isClickable = false
+
+
+            MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+                title(R.string.dialog_choose_color)
+                colorChooser(
+                    colors,
+                    allowCustomArgb = true,
+                    showAlphaSelector = true,
+                    initialSelection = brushColor
+                ) { _, color ->
+                    brushColor = color
+                    binding.drawingView.setBrushColor(brushColor)
+                }
+                positiveButton(R.string.dialog_select)
+                negativeButton(R.string.dialog_negative)
+
         }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.ibBrushColor.isClickable = true
+        }, 1000)
+
+
+
     }
 
     fun imageBackground() {
@@ -254,20 +309,6 @@ class CanvasFragment : Fragment() {
         startActivity(Intent.createChooser(intent, getString(R.string.share_drawing)))
     }
 
-    fun moveScroll(direction: Int) {
-        when (direction) {
-            0 -> {
-                binding.hsvRight.fullScroll(HorizontalScrollView.FOCUS_RIGHT)
-                binding.ibMoveRight.visibility = View.INVISIBLE
-                binding.ibMoveLeft.visibility = View.VISIBLE
-            }
-            1 -> {
-                binding.hsvRight.fullScroll(HorizontalScrollView.FOCUS_LEFT)
-                binding.ibMoveLeft.visibility = View.INVISIBLE
-                binding.ibMoveRight.visibility = View.VISIBLE
-            }
-        }
-    }
 
     /* ===================================== Tools Panel Utils ===================================== */
 
@@ -311,6 +352,42 @@ class CanvasFragment : Fragment() {
             binding.drawingView.saveBitmap(binding.drawingView.getBitmap(binding.flDrawingViewContainer))
             snackBarMsg(requireView(), getString(R.string.drawing_saved))
         }
+    }
+
+    fun fab() {
+        setVisibility(fabClicked)
+        setAnimation(fabClicked)
+        fabClicked = !fabClicked
+    }
+
+    private fun setVisibility(fabClicked: Boolean) {
+        if (!fabClicked) {
+            binding.apply {
+                cvToolsPanel.visibility = View.VISIBLE
+                floatingActionButton.setImageResource(R.drawable.ic_arrow_right)
+            }
+        } else {
+            binding.apply {
+                cvToolsPanel.visibility = View.INVISIBLE
+                floatingActionButton.setImageResource(R.drawable.ic_arrow_left)
+            }
+        }
+
+
+    }
+
+    private fun setAnimation(fabClicked: Boolean) {
+    if (!fabClicked){
+        binding.apply {
+            cvToolsPanel.startAnimation(fromRight)
+
+        }
+    }else{
+        binding.apply {
+            cvToolsPanel.startAnimation(toRight)
+
+        }
+    }
     }
 
     /* ===================================== On app exit. ===================================== */

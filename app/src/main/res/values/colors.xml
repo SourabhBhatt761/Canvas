@@ -18,6 +18,7 @@
     <color name="backgroundColor">#FFFFFF</color>
     <color name="drawingBorderColor">#B4B4B4</color>
     <color name="ScrollMoveBgColor">#33F94867</color>
+    <color name="lightBlue">#d5f5ff</color>
 
     <!-- Brush Palette -->
     <color name="beige">#ffcc99</color>

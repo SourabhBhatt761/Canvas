@@ -32,11 +32,11 @@
                 android:icon="@drawable/ic_about"
                 android:title="@string/option_about"
                 app:showAsAction="never" />-->
-            <item
+            <!--<item
                 android:id="@+id/option_settings"
                 android:icon="@drawable/ic_settings"
                 android:title="@string/option_settings"
-                app:showAsAction="never" />
+                app:showAsAction="never" />-->
             <item
                 android:id="@+id/log_Out"
                 android:icon="@drawable/baseline_logout_black_24dp"

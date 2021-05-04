@@ -11,6 +11,12 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import android.webkit.MimeTypeMap
+import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.srb.canvas.utils.snackBarMsg
 import timber.log.Timber
 import java.io.OutputStream
 
@@ -184,12 +190,48 @@ class DrawingView (context: Context, attrs: AttributeSet) : View(context, attrs)
 
         val uri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
         if (uri != null) {
+
+            Timber.i(uri.toString())
             saveDrawingToStream(bitmap, resolver.openOutputStream(uri))
             context.contentResolver.update(uri, values, null, null)
+            uploadToFireStore(uri)
             result = uri.toString()
         }
 
         return result
+    }
+
+    private fun uploadToFireStore(uri: Uri) {
+
+        Timber.i(uri.toString())
+        val fireRef = FirebaseStorage.getInstance().reference.child("uploads").child("Canvas_${System.currentTimeMillis() / 1000}.png")
+
+        fireRef.putFile(uri).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Toast.makeText(context,"done",Toast.LENGTH_SHORT).show()
+                fireRef.downloadUrl.addOnSuccessListener { url ->
+                    Timber.i(url.toString())
+                }
+            }else {
+                Timber.i(it.exception)
+            }
+        }
+
+
+//        val map = HashMap<String,String>()
+//        map["image"] = uri.toString()
+//
+//        val db = FirebaseFirestore.getInstance()
+//        db.collection("data").document("Images")
+//            .set(map).addOnCompleteListener { task ->
+//                if(task.isSuccessful){
+//                    Toast.makeText(context,"done",Toast.LENGTH_SHORT).show()
+//                }else{
+//                    Toast.makeText(context,"error",Toast.LENGTH_SHORT).show()
+//                }
+//
+//            }
+
     }
 
     fun getBitmap(view: View): Bitmap {
@@ -216,6 +258,14 @@ class DrawingView (context: Context, attrs: AttributeSet) : View(context, attrs)
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun getFileExtension(uri : Uri)  : String?{
+        val contentResolver = context.contentResolver
+
+        val mimeTypeMap = MimeTypeMap.getSingleton()
+
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))
     }
 
     // An inner class for custom path with two params as color and stroke size.
