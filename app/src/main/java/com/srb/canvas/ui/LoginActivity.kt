@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             saveUserInfo(email,password)
-//
+
                             val intent = Intent(this,MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
@@ -62,9 +62,7 @@ class LoginActivity : AppCompatActivity() {
                             val message = task.exception.toString()
                             Snackbar.make(binding.loginLayout, "email or password is incorrect", Snackbar.LENGTH_SHORT)
                                 .show()
-                            //  Toast.makeText(this,"Error : $message",Toast.LENGTH_LONG).show()
                             mAuth.signOut()
-                            // progressDialog.dismiss()
                         }
                     }
             }

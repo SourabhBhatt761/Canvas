@@ -210,7 +210,6 @@ class DrawingView (context: Context, attrs: AttributeSet) : View(context, attrs)
         fireRef.putFile(uri).addOnCompleteListener {
             if (it.isSuccessful) {
                 snackBarMsg(this,"done")
-//                Toast.makeText(context,"done",Toast.LENGTH_SHORT).show()
                 fireRef.downloadUrl.addOnSuccessListener { url ->
                     Timber.i(url.toString())
                 }
@@ -219,20 +218,6 @@ class DrawingView (context: Context, attrs: AttributeSet) : View(context, attrs)
             }
         }
 
-
-//        val map = HashMap<String,String>()
-//        map["image"] = uri.toString()
-//
-//        val db = FirebaseFirestore.getInstance()
-//        db.collection("data").document("Images")
-//            .set(map).addOnCompleteListener { task ->
-//                if(task.isSuccessful){
-//                    Toast.makeText(context,"done",Toast.LENGTH_SHORT).show()
-//                }else{
-//                    Toast.makeText(context,"error",Toast.LENGTH_SHORT).show()
-//                }
-//
-//            }
 
     }
 
