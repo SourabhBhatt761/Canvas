@@ -385,8 +385,8 @@ class CanvasFragment : Fragment() {
     private fun setAnimation(fabClicked: Boolean) {
     if (!fabClicked){
         binding.apply {
-            cvToolsPanel.startAnimation(fromRight)
-
+            cvToolsPanel.startAnimation(fromRight)        //animates everytime
+ //           cvToolsPanel.animation = fromRight              //animates when the view is created for the first time
         }
     }else{
         binding.apply {
