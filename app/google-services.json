@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "933463084488",
+    "firebase_url": "https://canvas-8abc6-default-rtdb.firebaseio.com",
+    "project_id": "canvas-8abc6",
+    "storage_bucket": "canvas-8abc6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933463084488:android:47972e4ae06e1c8d9d04fd",
+        "android_client_info": {
+          "package_name": "com.srb.canvas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933463084488-ps8nb0a355dls2bl5jjndlf07fiku5bb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.srb.canvas",
+            "certificate_hash": "d104a1c8639a1b852e1183ec3b89610aeff5542d"
+          }
+        },
+        {
+          "client_id": "933463084488-hlop42t9ddgdou66ulcndd5i8j7l32pu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2EApXKu7frQ_1TKJGlM3Qt-Y--gQHhBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933463084488-hlop42t9ddgdou66ulcndd5i8j7l32pu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
