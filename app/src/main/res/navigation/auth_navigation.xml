@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/loginFragment"
+    android:id="@+id/auth_navigation">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.srb.canvas.ui.authentication.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
+            app:enterAnim="@anim/animation_from_right"
+            app:exitAnim="@anim/animation_to_left"
+            app:popEnterAnim="@anim/animation_from_left"
+            app:popExitAnim="@anim/animation_to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.srb.canvas.ui.authentication.SignUpFragment"
+        android:label="Sign Up"
+        tools:layout="@layout/fragment_sign_up"/>
+
+</navigation>

@@ -1,7 +1,6 @@
 package com.srb.canvas.ui.canvas
 
 import android.Manifest
-import android.R.color
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -18,7 +17,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.LayoutMode
@@ -31,7 +29,7 @@ import com.afollestad.materialdialogs.list.listItems
 import com.google.firebase.auth.FirebaseAuth
 import com.srb.canvas.R
 import com.srb.canvas.databinding.FragmentCanvasBinding
-import com.srb.canvas.ui.LoginActivity
+import com.srb.canvas.ui.authentication.AuthActivity
 import com.srb.canvas.utils.Constants.GALLERY
 import com.srb.canvas.utils.Constants.STORAGE_PERMISSION_CODE
 import com.srb.canvas.utils.snackBarMsg
@@ -180,7 +178,7 @@ class CanvasFragment : Fragment() {
 
     private fun logOut(): Boolean {
         FirebaseAuth.getInstance().signOut()
-        val intent = Intent(requireContext(), LoginActivity::class.java)
+        val intent = Intent(requireContext(), AuthActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
 

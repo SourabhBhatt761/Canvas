@@ -36,6 +36,10 @@
         <item name="backgroundTint">@color/backgroundColor</item>
     </style>
 
+    <style name="ToolbarTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+
+    <style name="ToolbarTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
     <style name="PreferenceTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/secondaryTextColor</item>
         <item name="colorPrimaryDark">@color/primaryColor</item>
