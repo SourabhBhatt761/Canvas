@@ -88,7 +88,7 @@ class SignUpFragment : Fragment() {
         map["pwd"] = pwd
 
         val db = FirebaseFirestore.getInstance()
-        db.collection("data").document("credentials")
+        db.collection("data").document(email)
             .set(map).addOnCompleteListener { task ->
                 if(task.isSuccessful){
 //                    Toast.makeText(requireActivity(),"Welcome", Toast.LENGTH_SHORT).show()
