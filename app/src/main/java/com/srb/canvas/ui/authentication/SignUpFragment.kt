@@ -88,12 +88,12 @@ class SignUpFragment : Fragment() {
         map["pwd"] = pwd
 
         val db = FirebaseFirestore.getInstance()
-        db.collection("data").document(email)
+        db.collection("data").document("users").collection(email).document("credentials")
             .set(map).addOnCompleteListener { task ->
-                if(task.isSuccessful){
+                if (task.isSuccessful) {
 //                    Toast.makeText(requireActivity(),"Welcome", Toast.LENGTH_SHORT).show()
-                    Log.i("uni","sign up successfull")
-                }else{
+                    Log.i("uni", "sign up successful")
+                } else {
 //                    Toast.makeText(requireActivity(),"Error occurred", Toast.LENGTH_SHORT).show()
                     Log.i("uni", task.exception.toString())
                 }
